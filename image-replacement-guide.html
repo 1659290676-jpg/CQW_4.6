@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片替换教程 | 设计师作品集网站</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#111111',
+                        secondary: '#333333',
+                        accent: '#0066ff',
+                        light: '#f5f5f5',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .code-block {
+                @apply bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm font-mono;
+            }
+            .highlight {
+                @apply bg-yellow-100 text-yellow-800 px-1 py-0.5 rounded;
+            }
+            .step-card {
+                @apply bg-white p-6 rounded-lg shadow-sm border border-gray-200;
+            }
+            .note-box {
+                @apply bg-blue-50 border-l-4 border-blue-500 p-4 my-4;
+            }
+            .warning-box {
+                @apply bg-red-50 border-l-4 border-red-500 p-4 my-4;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-primary font-sans">
+    <!-- 导航栏 -->
+    <nav class="bg-white shadow-sm py-4">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="text-2xl font-bold text-primary">设计师作品集</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <main class="pt-8 pb-16">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <h1 class="text-3xl md:text-4xl font-bold mb-6">图片替换教程</h1>
+                <p class="text-gray-600 text-lg mb-8">
+                    本教程将指导你如何在设计师作品集网站中替换图片，包括单图展示和多图轮播功能的图片替换方法。
+                </p>
+
+                <!-- 目录 -->
+                <div class="bg-white p-6 rounded-lg shadow-sm mb-8">
+                    <h2 class="text-xl font-bold mb-4">目录</h2>
+                    <ul class="space-y-2">
+                        <li><a href="#section1" class="text-accent hover:underline">1. 找到需要替换的图片</a></li>
+                        <li><a href="#section2" class="text-accent hover:underline">2. 替换单张图片</a></li>
+                        <li><a href="#section3" class="text-accent hover:underline">3. 替换多图轮播图片</a></li>
+                        <li><a href="#section4" class="text-accent hover:underline">4. 图片托管方案</a></li>
+                        <li><a href="#section5" class="text-accent hover:underline">5. 常见问题</a></li>
+                    </ul>
+                </div>
+
+                <!-- 第1步：找到需要替换的图片 -->
+                <section id="section1" class="mb-12">
+                    <div class="step-card">
+                        <div class="flex items-center mb-4">
+                            <div class="w-8 h-8 bg-accent text-white rounded-full flex items-center justify-center mr-3">1</div>
+                            <h2 class="text-2xl font-bold">找到需要替换的图片</h2>
+                        </div>
+                        
+                        <p class="text-gray-600 mb-4">
+                            在HTML文件中，图片通常以<code class="highlight">&lt;img src="图片URL"&gt;</code>的形式存在。你需要找到这些标签并替换其中的URL。
+                        </p>
+                        
+                        <div class="note-box">
+                            <p class="flex items-start">
+                                <i class="fa fa-info-circle text-blue-500 mt-1 mr-2"></i>
+                                <span>在作品详情页中，主要有三种类型的图片需要替换：主图展示区、缩略图预览区和图片查看器中的图片。</span>
+                            </p>
+                        </div>
+
+                        <h3 class="text-lg font-semibold mt-6 mb-3">使用浏览器开发者工具查找图片</h3>
+                        <ol class="list-decimal list-inside space-y-2 text-gray-600">
+                            <li>在浏览器中打开你的网站</li>
+                            <li>右键点击要替换的图片，选择"检查"或"Inspect"</li>
+                            <li>在开发者工具中找到对应的<code class="highlight">&lt;img&gt;</code>标签</li>
+                            <li>查看<code class="highlight">src</code>属性中的图片URL</li>
+                        </ol>
+
+                        <div class="mt-4">
+                            <img src="https://p5-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/cedff698fc63489db797af1039f01563~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=202604052232550D63870582412AB07E68&rrcfp=f06b921b&x-expires=1777991607&x-signature=v2mgAGw8sSrMBu7hrz6mw0bd7pY%3D" alt="使用开发者工具查找图片" class="w-full h-auto rounded-lg border border-gray-200 cursor-pointer" onclick="openModal(this.src)">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 第2步：替换单张图片 -->
+                <section id="section2" class="mb-12">
+                    <div class="step-card">
+                        <div class="flex items-center mb-4">
+                            <div class="w-8 h-8 bg-accent text-white rounded-full flex items-center justify-center mr-3">2</div>
+                            <h2 class="text-2xl font-bold">替换单张图片</h2>
+                        </div>
+                        
+                        <p class="text-gray-600 mb-4">
+                            对于单张图片（如首页作品卡片、相关项目等），你只需要找到对应的<code class="highlight">&lt;img&gt;</code>标签并替换<code class="highlight">src</code>属性即可。
+                        </p>
+
+                        <h3 class="text-lg font-semibold mt-6 mb-3">示例：替换首页作品卡片图片</h3>
+                        <div class="code-block mb-4">
+                            &lt;!-- 原始代码 --&gt;<br>
+                            &lt;div class="work-card bg-white rounded-lg overflow-hidden shadow-sm group"&gt;<br>
+                            &nbsp;&nbsp;&lt;img src=<span class="text-green-400">"https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/520c2cb70ce74a5e873ecc213be07d49~tplv-a9rns2rl98-image.image?rcl=20251013162436B2ED504F4E124AF921CD&amp;rk3s=8e244e95&amp;rrcfp=2609e108&amp;x-expires=1760948681&amp;x-signature=mHPZrZeJjztdaF94jLEBa09ZNyE%3D"</span> alt="Oitcut Website" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110"&gt;<br>
+                            &nbsp;&nbsp;&lt;div class="p-4"&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;h3 class="font-semibold mb-1"&gt;Oitcut Website&lt;/h3&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;p class="text-gray-600 text-sm mb-3"&gt;Light theme website with modern typography.&lt;/p&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;a href="works/work2.html" class="text-accent text-sm font-medium hover:underline"&gt;View Project&lt;/a&gt;<br>
+                            &nbsp;&nbsp;&lt;/div&gt;<br>
+                            &lt;/div&gt;
+                        </div>
+
+                        <div class="code-block">
+                            &lt;!-- 替换后的代码 --&gt;<br>
+                            &lt;div class="work-card bg-white rounded-lg overflow-hidden shadow-sm group"&gt;<br>
+                            &nbsp;&nbsp;&lt;img src=<span class="text-green-400">"你的新图片URL"</span> alt="Oitcut Website" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110"&gt;<br>
+                            &nbsp;&nbsp;&lt;div class="p-4"&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;h3 class="font-semibold mb-1"&gt;Oitcut Website&lt;/h3&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;p class="text-gray-600 text-sm mb-3"&gt;Light theme website with modern typography.&lt;/p&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;a href="works/work2.html" class="text-accent text-sm font-medium hover:underline"&gt;View Project&lt;/a&gt;<br>
+                            &nbsp;&nbsp;&lt;/div&gt;<br>
+                            &lt;/div&gt;
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 第3步：替换多图轮播图片 -->
+                <section id="section3" class="mb-12">
+                    <div class="step-card">
+                        <div class="flex items-center mb-4">
+                            <div class="w-8 h-8 bg-accent text-white rounded-full flex items-center justify-center mr-3">3</div>
+                            <h2 class="text-2xl font-bold">替换多图轮播图片</h2>
+                        </div>
+                        
+                        <p class="text-gray-600 mb-4">
+                            在作品详情页中，多图轮播功能需要替换三个位置的图片链接，以确保功能正常工作：
+                        </p>
+
+                        <ol class="list-decimal list-inside space-y-2 text-gray-600 mb-6">
+                            <li>JavaScript数组中的图片URL</li>
+                            <li>主图展示区的图片URL</li>
+                            <li>缩略图预览区的图片URL</li>
+                        </ol>
+
+                        <div class="warning-box">
+                            <p class="flex items-start">
+                                <i class="fa fa-exclamation-triangle text-red-500 mt-1 mr-2"></i>
+                                <span>请确保这三个位置的图片URL保持一致，否则可能导致轮播功能异常！</span>
+                            </p>
+                        </div>
+
+                        <h3 class="text-lg font-semibold mt-6 mb-3">步骤1：替换JavaScript数组中的图片URL</h3>
+                        <p class="text-gray-600 mb-3">
+                            首先找到页面底部的JavaScript代码，找到<code class="highlight">imageUrls</code>数组：
+                        </p>
+
+                        <div class="code-block mb-6">
+                            &lt;script&gt;<br>
+                            &nbsp;&nbsp;// 图片URL数组<br>
+                            &nbsp;&nbsp;const imageUrls = [<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-green-400">"https://p6-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/2ebf437f5d6740db9dd1e5a268e19c4e~tplv-a9rns2rl98-image.image?lk3s=8e244e95&amp;rcl=20260403151752A8C9DBC479D714BF12F4&amp;rrcfp=e75484ac&amp;x-expires=1775805473&amp;x-signature=l6IShJzDWbe6HhnjNOFJvXrv%2FAc%3D"</span>,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-green-400">"https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/83dc17fc95bb49f49debaf5b556a9dde~tplv-a9rns2rl98-image.image?lk3s=8e244e95&amp;rcl=20260403154523C7B50284E8297F892740&amp;rrcfp=e75484ac&amp;x-expires=1775807125&amp;x-signature=eURmcoqwK6BAijNY38sRy9bxr7A%3D"</span>,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-green-400">"https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/10c89e8a384344ed92d5de848d3059cb~tplv-a9rns2rl98-image.image?lk3s=8e244e95&amp;rcl=20260403154610E1858C03AB914830A300&amp;rrcfp=e75484ac&amp;x-expires=1775807171&amp;x-signature=mghl8K%2Bl6gnxawmN88dVxhhSrLE%3D"</span>,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-green-400">"https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/644c6596d68441e3b2a09089917a1207~tplv-a9rns2rl98-image.image?lk3s=8e244e95&amp;rcl=2026040315470986356C67CBBD902F1FE5&amp;rrcfp=e75484ac&amp;x-expires=1775807230&amp;x-signature=MfcJ7OHU%2FnE9ykT9%2B5YQFWW3%2B2U%3D"</span>,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-green-400">"https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/e116a09238184490bf4afe27be0ca493~tplv-a9rns2rl98-image.image?lk3s=8e244e95&amp;rcl=2026040315203688151CB270D45C37BEAC&amp;rrcfp=e75484ac&amp;x-expires=1775805637&amp;x-signature=5DAFFaPFuJTyCyS%2FSUbxjPqfv38%3D"</span><br>
+                            &nbsp;&nbsp;];<br>
+                            &lt;/script&gt;
+                        </div>
+
+                        <h3 class="text-lg font-semibold mt-6 mb-3">步骤2：替换主图展示区的图片URL</h3>
+                        <p class="text-gray-600 mb-3">
+                            找到主图展示区的<code class="highlight">&lt;img&gt;</code>标签，替换其<code class="highlight">src</code>属性：
+                        </p>
+
+                        <div class="code-block mb-6">
+                            &lt;!-- 主图展示区 --&gt;<br>
+                            &lt;div class="relative cursor-pointer hover:opacity-90 transition-opacity" onclick="openImageViewer(0)"&gt;<br>
+                            &nbsp;&nbsp;&lt;img id="main-image" src=<span class="text-green-400">"https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/a7b3a47cd6184e64953b4c53fab91d7a~tplv-a9rns2rl98-image.image?lk3s=8e244e95&amp;rcl=202604041309326C4A0CC3B5D02FE58D4A&amp;rrcfp=e75484ac&amp;x-expires=1775884173&amp;x-signature=K01wrvAdLcziVRmwixo9XRnnGcg%3D"</span> alt="Millmane App UI" class="w-full h-auto rounded-lg"&gt;<br>
+                            &nbsp;&nbsp;&lt;div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 hover:bg-opacity-20 transition-all duration-300"&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;span class="px-4 py-2 bg-white text-black text-sm font-medium rounded-md transform translate-y-4 hover:translate-y-0 transition-transform duration-300 opacity-0 hover:opacity-100"&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;i class="fa fa-search-plus mr-2"&gt;&lt;/i&gt;查看大图<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/span&gt;<br>
+                            &nbsp;&nbsp;&lt;/div&gt;<br>
+                            &lt;/div&gt;
+                        </div>
+
+                        <h3 class="text-lg font-semibold mt-6 mb-3">步骤3：替换缩略图预览区的图片URL</h3>
+                        <p class="text-gray-600 mb-3">
+                            找到缩略图预览区的所有<code class="highlight">&lt;img&gt;</code>标签，替换它们的<code class="highlight">src</code>属性：
+                        </p>
+
+                        <div class="code-block">
+                            &lt;!-- 缩略图预览 --&gt;<br>
+                            &lt;div class="grid grid-cols-5 gap-2 mt-4"&gt;<br>
+                            &nbsp;&nbsp;&lt;div class="thumbnail cursor-pointer border-2 border-accent rounded-md overflow-hidden" data-index="0"&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=<span class="text-green-400">"https://p6-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/2ebf437f5d6740db9dd1e5a268e19c4e~tplv-a9rns2rl98-image.image?lk3s=8e244e95&amp;rcl=20260403151752A8C9DBC479D714BF12F4&amp;rrcfp=e75484ac&amp;x-expires=1775805473&amp;x-signature=l6IShJzDWbe6HhnjNOFJvXrv%2FAc%3D"</span> alt="Millmane App UI" class="w-full h-16 object-cover"&gt;<br>
+                            &nbsp;&nbsp;&lt;/div&gt;<br>
+                            &nbsp;&nbsp;&lt;div class="thumbnail cursor-pointer border-2 border-transparent rounded-md overflow-hidden" data-index="1"&gt;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=<span class="text-green-400">"https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/83dc17fc95bb49f49debaf5b556a9dde~tplv-a9rns2rl98-image.image?lk3s=8e244e95&amp;rcl=20260403154523C7B50284E8297F892740&amp;rrcfp=e75484ac&amp;x-expires=1775807125&amp;x-signature=eURmcoqwK6BAijNY38sRy9bxr7A%3D"</span> alt="Oitcut Website" class="w-full h-16 object-cover"&gt;<br>
+                            &nbsp;&nbsp;&lt;/div&gt;<br>
+                            &nbsp;&nbsp;&lt;!-- 更多缩略图... --&gt;<br>
+                            &lt;/div&gt;
+                        </div>
+
+                        <div class="note-box mt-6">
+                            <p class="flex items-start">
+                                <i class="fa fa-lightbulb-o text-blue-500 mt-1 mr-2"></i>
+                                <span>确保JavaScript数组、主图和缩略图的URL顺序一致，这样点击缩略图时才能显示对应的大图。</span>
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 第4步：图片托管方案 -->
+                <section id="section4" class="mb-12">
+                    <div class="step-card">
+                        <div class="flex items-center mb-4">
+                            <div class="w-8 h-8 bg-accent text-white rounded-full flex items-center justify-center mr-3">4</div>
+                            <h2 class="text-2xl font-bold">图片托管方案</h2>
+                        </div>
+                        
+                        <p class="text-gray-600 mb-4">
+                            为了确保你的图片能够稳定访问，推荐使用以下图片托管方案：
+                        </p>
+
+                        <h3 class="text-lg font-semibold mt-6 mb-3">方案1：GitHub Pages + jsDelivr CDN（推荐）</h3>
+                        <p class="text-gray-600 mb-3">
+                            这是最推荐的方案，既免费又稳定，还支持CDN加速：
+                        </p>
+
+                        <ol class="list-decimal list-inside space-y-3 text-gray-600 mb-6">
+                            <li>
+                                <strong>创建GitHub仓库：</strong>
+                                <ul class="list-disc list-inside ml-6 mt-1">
+                                    <li>登录GitHub，创建一个新的公开仓库</li>
+                                    <li>仓库名可以是 <code class="highlight">username-images</code> 或其他有意义的名称</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong>上传图片：</strong>
+                                <ul class="list-disc list-inside ml-6 mt-1">
+                                    <li>直接在GitHub网页上上传图片文件</li>
+                                    <li>或者使用Git命令行/桌面客户端上传</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong>获取CDN链接：</strong>
+                                <ul class="list-disc list-inside ml-6 mt-1">
+                                    <li>格式：<code class="highlight">https://cdn.jsdelivr.net/gh/用户名/仓库名@分支名/图片路径</code></li>
+                                    <li>示例：<code class="highlight">https://cdn.jsdelivr.net/gh/username/my-images@main/portfolio/project1.jpg</code></li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <div class="code-block mb-6">
+                            &lt;!-- 使用jsDelivr CDN的示例 --&gt;<br>
+                            &lt;img src=<span class="text-green-400">"https://cdn.jsdelivr.net/gh/username/my-images@main/portfolio/project1.jpg"</span> alt="项目图片"&gt;
+                        </div>
+
+                        <h3 class="text-lg font-semibold mt-6 mb-3">方案2：使用免费图床服务</h3>
+                        <p class="text-gray-600 mb-3">
+                            如果不想使用GitHub，也可以考虑以下免费图床服务：
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <h4 class="font-semibold mb-2">SM.MS</h4>
+                                <p class="text-sm text-gray-600">免费图床，支持拖拽上传，无需注册</p>
+                                <p class="text-sm text-gray-600 mt-1">网址：<a href="https://sm.ms" target="_blank" class="text-accent hover:underline">https://sm.ms</a></p>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <h4 class="font-semibold mb-2">ImgBB</h4>
+                                <p class="text-sm text-gray-600">免费图床，支持API，有容量限制</p>
+                                <p class="text-sm text-gray-600 mt-1">网址：<a href="https://imgbb.com" target="_blank" class="text-accent hover:underline">https://imgbb.com</a></p>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <h4 class="font-semibold mb-2">聚合图床</h4>
+                                <p class="text-sm text-gray-600">支持多图床，自动备份，需注册</p>
+                                <p class="text-sm text-gray-600 mt-1">网址：<a href="https://www.superbed.cn" target="_blank" class="text-accent hover:underline">https://www.superbed.cn</a></p>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <h4 class="font-semibold mb-2">路过图床</h4>
+                                <p class="text-sm text-gray-600">简单易用，支持批量上传</p>
+                                <p class="text-sm text-gray-600 mt-1">网址：<a href="https://imgchr.com" target="_blank" class="text-accent hover:underline">https://imgchr.com</a></p>
+                            </div>
+                        </div>
+
+                        <div class="warning-box">
+                            <p class="flex items-start">
+                                <i class="fa fa-exclamation-triangle text-red-500 mt-1 mr-2"></i>
+                                <span>免费图床服务可能存在稳定性和存储期限的限制，重要的作品展示建议使用GitHub Pages方案。</span>
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 第5步：常见问题 -->
+                <section id="section5" class="mb-12">
+                    <div class="step-card">
+                        <div class="flex items-center mb-4">
+                            <div class="w-8 h-8 bg-accent text-white rounded-full flex items-center justify-center mr-3">5</div>
+                            <h2 class="text-2xl font-bold">常见问题</h2>
+                        </div>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">Q: 替换图片后，轮播功能不正常工作怎么办？</h3>
+                                <p class="text-gray-600">
+                                    A: 请检查以下几点：<br>
+                                    1. JavaScript数组、主图和缩略图的URL是否一致<br>
+                                    2. 图片URL是否正确，没有拼写错误<br>
+                                    3. 图片是否可以正常访问（尝试在浏览器中直接打开图片URL）<br>
+                                    4. 确保所有图片都已经上传成功
+                                </p>
+                            </div>
+
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">Q: 图片加载很慢怎么办？</h3>
+                                <p class="text-gray-600">
+                                    A: 可以尝试以下方法：<br>
+                                    1. 使用CDN加速（推荐jsDelivr）<br>
+                                    2. 优化图片大小，使用适当的分辨率<br>
+                                    3. 考虑使用WebP格式图片（更小的文件体积）<br>
+                                    4. 避免使用过大的图片文件（建议单张图片不超过2MB）
+                                </p>
+                            </div>
+
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">Q: 如何批量替换多张图片？</h3>
+                                <p class="text-gray-600">
+                                    A: 可以使用代码编辑器的批量替换功能：<br>
+                                    1. 在VS Code中使用 <code class="highlight">Ctrl+Shift+H</code> 打开全局替换<br>
+                                    2. 在Sublime Text中使用 <code class="highlight">Ctrl+Shift+F</code> 打开查找面板，然后点击"Replace"<br>
+                                    3. 在记事本++中使用 <code class="highlight">Ctrl+H</code> 打开替换对话框
+                                </p>
+                            </div>
+
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">Q: 图片替换后显示不出来怎么办？</h3>
+                                <p class="text-gray-600">
+                                    A: 请检查以下几点：<br>
+                                    1. 图片URL是否正确<br>
+                                    2. 图片是否已经上传到服务器<br>
+                                    3. 是否存在跨域问题（某些图床可能限制外部引用）<br>
+                                    4. 检查浏览器控制台是否有错误信息
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 总结 -->
+                <section class="mb-12">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h2 class="text-2xl font-bold mb-4">总结</h2>
+                        <p class="text-gray-600 mb-4">
+                            替换图片是更新设计师作品集网站的重要步骤。请记住以下关键点：
+                        </p>
+                        <ul class="list-disc list-inside space-y-2 text-gray-600">
+                            <li>单张图片只需要替换一个<code class="highlight">src</code>属性</li>
+                            <li>多图轮播需要替换三个位置的图片URL，确保它们保持一致</li>
+                            <li>推荐使用GitHub Pages + jsDelivr CDN作为图片托管方案</li>
+                            <li>替换图片后记得测试网站功能是否正常</li>
+                        </ul>
+                        <div class="mt-6 text-center">
+                            <a href="index.html" class="inline-flex items-center px-6 py-3 bg-accent text-white font-medium rounded-md hover:bg-blue-700 transition duration-300">
+                                <i class="fa fa-arrow-left mr-2"></i> 返回首页
+                            </a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="py-8 bg-black text-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center">
+                <p>&copy; 2025 设计师作品集网站. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

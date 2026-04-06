@@ -1,0 +1,525 @@
+<html lang="zh-CN"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Millmane App UI | 作品详情 | QianWei Chen</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- GSAP 动画库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#111111',
+                        secondary: '#333333',
+                        accent: '#0066ff',
+                        light: '#f5f5f5',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-balance {
+                text-wrap: balance;
+            }
+            .text-shadow {
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            }
+            .transition-transform {
+                transition-property: transform;
+                transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+                transition-duration: 300ms;
+            }
+            .hover-scale {
+                @apply hover:scale-105 transition-transform duration-300;
+            }
+            .card-shadow {
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            }
+            .nav-shadow {
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            }
+        }
+    </style>
+    
+    <style>
+        /* 自定义滚动条 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        
+        /* 图片查看器样式 */
+        .image-viewer {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        .image-viewer.active {
+            display: flex;
+        }
+        
+        .image-viewer-container {
+            position: relative;
+            max-width: 90%;
+            max-height: 70%;
+        }
+        
+        .image-viewer img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .image-viewer-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            z-index: 101;
+        }
+        
+
+        
+        /* 淡入动画 */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .fade-in.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-white text-primary font-sans">
+    <!-- 导航栏 -->
+    <nav id="navbar" class="fixed top-0 left-0 w-full bg-white bg-opacity-95 nav-shadow py-4 z-50">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="flex justify-between items-center">
+                <a href="../index.html" class="text-2xl font-bold text-primary">QianWei Chen</a>
+                
+                <!-- 桌面导航 -->
+                <div class="hidden md:flex ml-auto space-x-8">
+                    <a href="../index.html" class="text-secondary hover:text-accent transition-colors">Home</a>
+                    <a href="../index.html#works" class="text-secondary hover:text-accent transition-colors">Works</a>
+                    <a href="../index.html#about" class="text-secondary hover:text-accent transition-colors">About</a>
+                    <a href="../index.html#contact" class="text-secondary hover:text-accent transition-colors">Contact</a>
+                </div>
+                
+                <!-- 移动端菜单按钮 -->
+                <button id="menu-toggle" class="md:hidden ml-auto text-primary focus:outline-none">
+                    <i class="fa fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- 移动端导航菜单 -->
+        <div id="mobile-menu" class="md:hidden bg-white hidden absolute top-full left-0 w-full border-t border-gray-100">
+            <div class="container mx-auto px-4 py-4">
+                <a href="../index.html" class="block py-2 text-secondary hover:text-accent">Home</a>
+                <a href="../index.html#works" class="block py-2 text-secondary hover:text-accent">Works</a>
+                <a href="../index.html#about" class="block py-2 text-secondary hover:text-accent">About</a>
+                <a href="../index.html#contact" class="block py-2 text-secondary hover:text-accent">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <main class="pt-16 pb-16">
+        <!-- 作品标题和简介 -->
+        <section class="pt-16 pb-12 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <div class="max-w-5xl mx-auto">
+                    <h1 class="text-3xl md:text-5xl font-bold mb-4">独立严肃游戏企划
+</h1>
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="px-4 py-2 bg-gray-200 rounded-full text-sm">UI Design</span>
+                        <span class="px-4 py-2 bg-gray-200 rounded-full text-sm">Serious game
+</span>
+                        <span class="px-4 py-2 bg-gray-200 rounded-full text-sm">2025</span>
+                    </div>
+                    <p class="text-gray-600 text-lg mb-8">
+                        一款以丹巴嘉绒藏族文化遗产保护为主题的【第一人称模拟经营+RPG】严肃游戏。提取实地调研的非遗基因，让玩家通过修缮与经营藏族碉楼，沉浸式体验文化传承。
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 主要图片展示 -->
+        <section class="py-12">
+            <div class="container mx-auto px-4">
+                <div class="max-w-5xl mx-auto">
+                    <!-- 主图展示区 -->
+                    <div class="relative">
+                        <img id="main-image" src="https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/ab00af53931f406dbcd09986f25c1006~tplv-a9rns2rl98-image.image?lk3s=8e244e95&amp;rcl=20260404154735D4CA015D1A3BBFF88430&amp;rrcfp=e75484ac&amp;x-expires=1775893656&amp;x-signature=0O0qjMZVm8I2Cj2LjR28CqROyaM%3D" alt="Millmane App UI" class="w-full h-auto rounded-lg">
+                    </div>
+                    
+
+                </div>
+            </div>
+        </section>
+        
+        <!-- 项目详情 -->
+        <section class="py-12">
+            <div class="container mx-auto px-4">
+                <div class="max-w-5xl mx-auto">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                        <!-- 左侧：项目概述 -->
+                        <div class="fade-in">
+                            <h2 class="text-2xl font-bold mb-6" style="font-size: 24px;">Project Overview</h2>
+                            <p class="text-gray-600 mb-6 leading-relaxed">
+                                这是一款以丹巴嘉绒藏族文化遗产为主题的角色扮演&amp;经营模拟游戏。玩家将化身中路村文化传承入，通过第一人称视角，亲手修复古老经营特色民宿，带领客参与特色民俗活动体验当地风土人情。碉楼、农耕智慧等文化知识点，在文物修复与现代改造游戏融合石砌工艺间寻找平衡。采用清新绘画风格，让玩家在沉浸式体验中，感受嘉绒藏族的建筑智慧与生活美学。游戏最后将通过特色惩罚机制警示，引导玩家思考文化保护的真谛。
+                            </p>
+                            <!-- 插入的游戏界面图片 -->
+                            <div class="mb-6 overflow-hidden rounded-lg shadow-sm hover-scale">
+                                <img src="https://p11-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/4a07f7a09b6143798f40f95bb5dca6dc~tplv-a9rns2rl98-image.image?lk3s=8e244e95&amp;rcl=202604061354347B1F32D7555E7B2F68A7&amp;rrcfp=e75484ac&amp;x-expires=1776059675&amp;x-signature=MQDgP0zAxjZoYa9%2BsFMJnfMJkKc%3D" alt="游戏界面设计" class="w-full h-auto">
+                            </div>
+
+                            
+                            <h3 class="text-xl font-semibold mb-4 mt-8">Tools Used</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-gray-100 rounded-full text-sm">Figma</span>
+                                <span class="px-3 py-1 bg-gray-100 rounded-full text-sm">Adobe Photoshop</span>
+                                <span class="px-3 py-1 bg-gray-100 rounded-full text-sm">XMind</span>
+                                <span class="px-3 py-1 bg-gray-100 rounded-full text-sm">无人机倾斜摄影+全景摄影+光谱检测</span>
+                            </div>
+                        </div>
+                        
+                        <!-- 右侧：设计过程 -->
+                        <div class="fade-in">
+                            <h2 class="text-2xl font-bold mb-6">Design Process</h2>
+                            
+                            <div class="space-y-8">
+                                <div>
+                                    <h3 class="text-xl font-semibold mb-2">田野调查与世界观构筑
+</h3>
+                                    <p class="text-gray-600">
+                                     深入四川中路乡开展沉浸式走访与石匠工艺实践，提取藏羌文化信仰，精准抓取“返乡青年继承破败碉楼”的戏剧冲突，设计“天崩开局”新手引导与多分支叙事脉络。
+                                    </p>
+                                </div>
+                                
+                                <div>
+                                    <h3 class="text-xl font-semibold mb-2">核心系统与玩法闭环
+</h3>
+                                    <p class="text-gray-600">
+                                        确立了【场景勘测评估——资源消耗修缮——空间功能转型——游客引流变现】的模拟经营(SIM)核心商业闭环。独立搭建了初版经济系统与UI原型，设计了涵盖基础构件(梯子/窗户)、文化软装(经幡/唐卡)的分类消耗数值，赋予玩家高自由度的养成反馈。
+                                    </p>
+                                </div>
+                                
+                                <div>
+                                    <h3 class="text-xl font-semibold mb-2">空间关卡设计
+</h3>
+                                    <p class="text-gray-600">
+                                      发挥专业优势，利用倾斜摄影拆解并还原了传统碉楼的空间组织与生态庭院(高海拔/低海拔植物配比)。
+                                    </p>
+                                </div>
+                                
+                                <div>
+                                    <h3 class="text-xl font-semibold mb-2">博弈机制与体验平衡
+</h3>
+                                    <p class="text-gray-600">
+                                        引入“文化保护与现代改建”的数值博弈机制:玩家在经营中需平衡游客的现代居住诉求与传统结构保留，过度现代化将触发隐藏的“惩罚警示机制"，用玩法交互引导玩家反思遗产保护的核心价值。
+</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+
+ 
+        
+        <!-- 项目成果 -->
+        <section class="py-12 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <div class="max-w-5xl mx-auto">
+                    <h2 class="text-2xl font-bold mb-8">Project Outcomes</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- 成果1 -->
+                        <div class="bg-white p-6 rounded-lg shadow-sm fade-in">
+                            <div class="w-12 h-12 bg-accent bg-opacity-10 rounded-full flex items-center justify-center mb-4">
+                                <i class="fa fa-users text-accent text-xl"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold mb-2">用户参与度</h3>
+                            <p class="text-gray-600">
+                                通过“日常经营+节庆传承”交织的叙事线与高自由度的养成系统，成功将枯燥的文化保护课题转化为具备心流体验的沉浸式游玩过程。
+                            </p>
+                        </div>
+                        
+                        <!-- 成果2 -->
+                        <div class="bg-white p-6 rounded-lg shadow-sm fade-in" style="transition-delay: 0.2s;">
+                            <div class="w-12 h-12 bg-accent bg-opacity-10 rounded-full flex items-center justify-center mb-4">
+                                <i class="fa fa-thumbs-up text-accent text-xl"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold mb-2">用户满意度
+</h3>
+                            <p class="text-gray-600">
+                           游戏概念企划案（Pitch Document）逻辑严密、视觉表现完整，其“惩罚警示机制”的设计获得学界与指导专家的高度认可。                           </p>
+                        </div>
+                        
+                        <!-- 成果3 -->
+                        <div class="bg-white p-6 rounded-lg shadow-sm fade-in" style="transition-delay: 0.4s;">
+                            <div class="w-12 h-12 bg-accent bg-opacity-10 rounded-full flex items-center justify-center mb-4">
+                                <i class="fa fa-line-chart text-accent text-xl"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold mb-2">商业影响力</h3>
+                            <p class="text-gray-600">
+                      成功打通从“线下文化田野调查”向“线上数字交互IP”转化的全链路研发框架，为地方文旅的数字化传播提供了具备商业落地潜力的游戏化解决方案。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 相关项目 -->
+        <section class="py-12">
+            <div class="container mx-auto px-4">
+                <h2 class="text-2xl font-bold mb-10 text-center">Related Projects</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                    <!-- 相关项目1 -->
+                    <div class="work-card bg-white rounded-lg overflow-hidden shadow-sm group fade-in">
+                        <div class="relative overflow-hidden">
+                            <img src="https://p26-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/698c875bf3a14a5ab13447382267d083~tplv-a9rns2rl98-image.image?lk3s=8e244e95&amp;rcl=202604051452528514660AAC65F8AEB07B&amp;rrcfp=e75484ac&amp;x-expires=1775976772&amp;x-signature=rEI1KSV8PJBTK9z6TI%2FNvNN%2FfZY%3D" alt="Oitcut Website" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110">
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-semibold mb-1">2025广东卫视非遗春晚舞台AI视觉设计
+</h3>
+                            <p class="text-gray-600 text-sm mb-3">为2025蛇年广东卫视中国非遗春节联欢晚会《一身正气》（潮汕英歌舞）打造数字舞台背景。通过前沿AIGC技术，将潮汕古建民居与赛博摇滚元素融合，打造“AI+文化”的现象级视听盛宴。
+</p>
+                            <a href="work2.html" class="text-accent text-sm font-medium hover:underline">View Project</a>
+                        </div>
+                    </div>
+                    
+                    <!-- 相关项目2 -->
+                    <div class="work-card bg-white rounded-lg overflow-hidden shadow-sm group fade-in" style="transition-delay: 0.2s;">
+                        <img src="https://p5-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/009e2a79869d48588eb4d72b2ddb43db~tplv-a9rns2rl98-image.image?lk3s=8e244e95&amp;rcl=20260405154058FE74E97389CC26E4148C&amp;rrcfp=e75484ac&amp;x-expires=1775979660&amp;x-signature=HNoS17zH1cUknvoOTexTs4quDVo%3D" alt="Gold &amp; Black Branding" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="p-4">
+                            <h3 class="font-semibold mb-1">成都鼓楼清真寺礼拜殿勘测与资产构建
+</h3>
+                            <p class="text-gray-600 text-sm mb-3">在省级文物保护项目中，主导古建场景的高精度3D资产采集与前端生成管线。运用摄影测量技术（Photogrammetry）获取古建微观形变数据，为建筑修缮提供科学依据。
+</p>
+                            <a href="work3.html" class="text-accent text-sm font-medium hover:underline">View Project</a>
+                        </div>
+                    </div>
+                    
+                    <!-- 相关项目3 -->
+                    <div class="work-card bg-white rounded-lg overflow-hidden shadow-sm group fade-in" style="transition-delay: 0.4s;">
+                        <img src="https://p5-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/6e0899baca2f47f09cab878deecfe92f~tplv-a9rns2rl98-image.image?lk3s=8e244e95&amp;rcl=202604051621083701BF03E3869E1E23E7&amp;rrcfp=e75484ac&amp;x-expires=1775982074&amp;x-signature=VIxzSGfbGTxdblUxNxCBXFeec30%3D" alt="Minimal Tech Product" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="p-4">
+                            <h3 class="font-semibold mb-1">佛山大沥河东社区空间环境提升项目
+</h3>
+                            <p class="text-gray-600 text-sm mb-3">针对真实存在的城市社区进行全域空间环境升级。主导从前期用户调研、三维实景数据采集，到核心节点空间方案构思，直至最终施工图落地的全生命周期设计流程。
+</p>
+                            <a href="work6.html" class="text-accent text-sm font-medium hover:underline">View Project</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 返回作品列表按钮 -->
+                <div class="text-center mt-12">
+                    <a href="../index.html#works" class="inline-flex items-center px-8 py-3 bg-black text-white font-medium rounded-md hover:bg-gray-800 transition duration-300">
+                        Back to All Works
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="py-12 bg-black text-white">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <h3 class="text-2xl font-bold">QianWei Chen</h3>
+                    <p class="text-gray-400 mt-2">A landscape architecture graduate designing immersive experiences                                                                       at the intersection of space, games and AI vision.</p>
+                </div>
+                
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                        <i class="fa fa-behance text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                        <i class="fa fa-dribbble text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                        <i class="fa fa-instagram text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                        <i class="fa fa-linkedin text-xl"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400 text-sm">
+                <p>© 2025 QianWei Chen. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 图片查看器 -->
+    <div id="image-viewer" class="image-viewer">
+        <span class="image-viewer-close" onclick="closeImageViewer()">×</span>
+        
+        <!-- 图片容器 -->
+        <div class="image-viewer-container">
+            <img id="viewer-image" src="" alt="Large image view">
+        </div>
+    </div>
+
+    <script>
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 移动端菜单切换
+            const menuToggle = document.getElementById('menu-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            menuToggle.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            // 导航栏滚动效果
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('bg-white', 'shadow-md');
+                    navbar.classList.remove('bg-opacity-95');
+                } else {
+                    navbar.classList.remove('shadow-md');
+                    navbar.classList.add('bg-opacity-95');
+                }
+            });
+            
+            // 淡入动画
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            const fadeInOnScroll = function() {
+                fadeElements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    
+                    if (elementTop < windowHeight - 100) {
+                        element.classList.add('active');
+                    }
+                });
+            };
+            
+            // 初始检查
+            fadeInOnScroll();
+            
+            // 滚动时检查
+            window.addEventListener('scroll', fadeInOnScroll);
+            
+            // 使用 GSAP 添加更复杂的动画
+            if (typeof gsap !== 'undefined') {
+                // 标题和简介动画
+                gsap.from('section:first-of-type h1', {
+                    opacity: 0,
+                    y: 50,
+                    duration: 1,
+                    delay: 0.2
+                });
+                
+                gsap.from('section:first-of-type .flex', {
+                    opacity: 0,
+                    y: 30,
+                    duration: 1,
+                    delay: 0.5
+                });
+                
+                gsap.from('section:first-of-type p', {
+                    opacity: 0,
+                    y: 20,
+                    duration: 1,
+                    delay: 0.8
+                });
+                
+                // 主要图片动画
+                gsap.from('section:nth-of-type(2) img', {
+                    opacity: 0,
+                    scale: 0.9,
+                    duration: 1,
+                    delay: 1
+                });
+            }
+        });
+        
+        // 主图图片地址
+        const mainImageUrl = 'https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/f02a4f7cb98b407cb24f7ceebd1df59d~tplv-a9rns2rl98-image.image?lk3s=8e244e95&amp;rcl=2026040415124889F2D1C263177372980F&amp;rrcfp=e75484ac&amp;x-expires=1775891569&amp;x-signature=PaC%2F8g3wNCtWcD7NoKsHKLli%2BpM%3D';
+        
+        // 图片查看器功能
+        function openImageViewer() {
+            const viewer = document.getElementById('image-viewer');
+            const viewerImage = document.getElementById('viewer-image');
+            
+            viewerImage.src = mainImageUrl;
+            viewer.classList.add('active');
+            document.body.style.overflow = 'hidden'; // 防止背景滚动
+        }
+        
+        function closeImageViewer() {
+            const viewer = document.getElementById('image-viewer');
+            viewer.classList.remove('active');
+            document.body.style.overflow = 'auto'; // 恢复背景滚动
+        }
+        
+        // 点击图片查看器背景关闭
+        document.getElementById('image-viewer').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeImageViewer();
+            }
+        });
+        
+        // 按ESC键关闭图片查看器
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeImageViewer();
+            } else if (e.key === 'ArrowLeft') {
+                // 左箭头显示上一张
+                showPreviousImage();
+            } else if (e.key === 'ArrowRight') {
+                // 右箭头显示下一张
+                showNextImage();
+            }
+        });
+    </script>
+
+
+</body></html>
